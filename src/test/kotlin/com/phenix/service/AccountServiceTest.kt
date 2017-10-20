@@ -17,7 +17,7 @@ class AccountServiceTest {
     @Test
     fun testAccountService() {
         val account = accountService!!.findById(1)
-        assertEquals(account.username, "john")
-        assertEquals(account.password, "123")
+        assertEquals(account?.username, "john")
+        assertEquals(account?.password, "123")
     }
 }

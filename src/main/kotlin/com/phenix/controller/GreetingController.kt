@@ -2,6 +2,8 @@ package com.phenix.controller
 
 import com.phenix.data.Account
 import com.phenix.data.Greeting
+import com.phenix.data.Resp
+import com.phenix.data.RespData
 import com.phenix.service.AccountService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,14 +24,17 @@ class GreetingController(@Autowired val accountService: AccountService) {
 
     @GetMapping("/findAll")
     @ResponseBody
-    fun findAll(): List<Account> {
-        return accountService.findAllAccount()
+    fun findAll(): Resp {
+        return RespData<List<Account>>(1, "success", accountService.findAllAccount())
     }
 
     @GetMapping("/findById")
     @ResponseBody
-    fun findById(@RequestParam(value = "id", defaultValue = "1") id: Int): Account {
-        return accountService.findById(id)
+    fun findById(@RequestParam(value = "id", defaultValue = "1") id: Int): Resp {
+        if (accountService.findById(id) == null)
+            return Resp(1, "found none")
+        else
+            return RespData<Account>(1, "success", accountService.findById(id))
     }
 
 }
