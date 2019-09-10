@@ -1,6 +1,5 @@
 package com.phenix.controller
 
-import com.phenix.data.Account
 import com.phenix.data.Greeting
 import com.phenix.data.Resp
 import com.phenix.data.RespData
@@ -25,16 +24,16 @@ class GreetingController(@Autowired val accountService: AccountService) {
     @GetMapping("/findAll")
     @ResponseBody
     fun findAll(): Resp {
-        return RespData<List<Account>>(1, "success", accountService.findAllAccount())
+        return RespData(1, "success", accountService.findAllAccount())
     }
 
     @GetMapping("/findById")
     @ResponseBody
     fun findById(@RequestParam(value = "id", defaultValue = "1") id: Int): Resp {
-        if (accountService.findById(id) == null)
-            return Resp(1, "found none")
+        return if (accountService.findById(id) == null)
+            Resp(1, "found none")
         else
-            return RespData<Account>(1, "success", accountService.findById(id))
+            RespData(1, "success", accountService.findById(id))
     }
 
 }
